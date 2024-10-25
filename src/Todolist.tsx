@@ -16,6 +16,14 @@ const TodoList: React.FC = () => {
     { id: 3, text: "미팅하기", isChecked: false },
   ]);
 
+  const handleCheckedChange = (itemId: number) => {
+    setTodos((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
+      )
+    );
+  };
+
   return (
     <div>
       <h1>{title}</h1>
@@ -23,8 +31,22 @@ const TodoList: React.FC = () => {
       <div className="container">
         <div className="board">
           <ul>
-            {todos.map((todo, index) => (
-              <li key={index}>{todo.text}</li>
+            {todos.map((todo) => (
+              <li key={todo.id}>
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    handleCheckedChange(todo.id);
+                  }}
+                ></input>
+                <span>
+                  {todo.isChecked ? (
+                    <del>{todo.text}</del>
+                  ) : (
+                    <span>{todo.text}</span>
+                  )}
+                </span>
+              </li>
             ))}
           </ul>
         </div>
